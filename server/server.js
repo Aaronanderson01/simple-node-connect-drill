@@ -6,14 +6,20 @@ var chatCtrl = require('./controllers/chatCtrl');
 var port = 3737;
 
 // TODO server front end files with static
-
+app.use(express.static(__dirname + "./../public"));
 app.use(bodyParser.json());
 
 // TODO Initialize Session
-
+var secret = {
+  secret: 'asdfloierniougdkjhbnjklhgdfsdfgjkuer'
+};
+app.use(session(secret));
 app.post("/api/screenname", function(req, res){
   // TODO Save screenname to session
-})
+  req.session.screenname = req.body;
+  res.send('screenname saved to session');
+
+});
 
 app.get("/api/chats", chatCtrl.getChats);
 app.post("/api/chats", chatCtrl.postChats);
